@@ -1,6 +1,7 @@
 #Step1: Setup Pydantic Model (Schema Validation)
 from pydantic import BaseModel
 from typing import List
+import os
 
 
 class RequestState(BaseModel):
@@ -41,4 +42,7 @@ def chat_endpoint(request: RequestState):
 #Step3: Run app & Explore Swagger UI Docs
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=9999)
+    uvicorn.run(
+    app,
+    host="0.0.0.0",
+    port=int(os.environ.get("PORT", 9999))

@@ -48,7 +48,8 @@ user_query = st.text_area(
 )
 
 # API endpoint (can be moved to secrets or config)
-API_URL = "https://ai-rag-chatbot.onrender.com/chat"
+API_URL = "https://your-fastapi-backend.onrender.com/chat"
+
 
 # Button to submit query
 if st.button("🚀 Ask Agent!"):
