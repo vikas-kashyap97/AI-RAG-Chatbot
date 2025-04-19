@@ -48,7 +48,7 @@ user_query = st.text_area(
 )
 
 # API endpoint (can be moved to secrets or config)
-API_URL = "http://127.0.0.1:9999/chat"
+API_URL = "https://ai-rag-chatbot.onrender.com"
 
 # Button to submit query
 if st.button("🚀 Ask Agent!"):
