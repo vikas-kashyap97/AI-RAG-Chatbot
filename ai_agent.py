@@ -38,4 +38,5 @@ def get_response_from_ai_agent(llm_id, query, allow_search, system_prompt, provi
     messages = response.get("messages")
     ai_messages = [message.content for message in messages if isinstance(message, AIMessage)]
 
-    return ai_messages[-1]
+    return {"response": ai_messages[-1]}
+
