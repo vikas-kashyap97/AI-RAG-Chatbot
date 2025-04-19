@@ -1,0 +1,17 @@
+.env
+venv
+Pipfile.lock
+# Python cache and virtualenv
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env/
+.venv/
+env/
+venv/
+
+# OS files
+.DS_Store
+
+# VSCode settings
+.vscode/
