@@ -14,7 +14,7 @@ app = FastAPI(title="LangGraph AI Agent")
 # ✅ Allow CORS (for local dev, Streamlit, frontend)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://your-streamlit-app.streamlit.app"]
+    allow_origins=["https://ai-multi-agent-chatbot.streamlit.app"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -56,7 +56,6 @@ def chat_endpoint(request: RequestState):
     except Exception as e:
         return {"error": f"Agent failed to respond: {str(e)}"}
 
-# ✅ Run locally
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 10000))  # Render provides this
