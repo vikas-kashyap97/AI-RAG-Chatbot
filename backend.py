@@ -1,21 +1,33 @@
 import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 from ai_agent import get_response_from_ai_agent
 
-# Load .env variables
+# Load environment variables from .env
 load_dotenv()
 
 app = FastAPI(title="LangGraph AI Agent")
 
+# ✅ Allow CORS (for local dev, Streamlit, frontend)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://your-streamlit-app.streamlit.app"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ✅ Supported Models
 ALLOWED_MODEL_NAMES = [
     "llama3-70b-8192", 
     "llama-3.3-70b-versatile", 
     "gemini-1.5-flash-latest"
 ]
 
+# ✅ Request Schema
 class RequestState(BaseModel):
     model_name: str
     model_provider: str
@@ -23,12 +35,16 @@ class RequestState(BaseModel):
     messages: List[str]
     allow_search: bool
 
+# ✅ Chat endpoint
 @app.post("/chat")
 def chat_endpoint(request: RequestState):
     if request.model_name not in ALLOWED_MODEL_NAMES:
         return {"error": "Invalid model name. Kindly select a valid AI model"}
 
     try:
+        # Log request for debugging
+        print(f"Received request: {request.dict()}")
+
         response = get_response_from_ai_agent(
             llm_id=request.model_name,
             query=request.messages,
@@ -40,6 +56,7 @@ def chat_endpoint(request: RequestState):
     except Exception as e:
         return {"error": f"Agent failed to respond: {str(e)}"}
 
+# ✅ Run locally
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 9999)))
